@@ -1,0 +1,24 @@
+#!/bin/bash
+# farda_telegram
+
+# Author	Ferhat ARDA  2019  farda@ferhatarda.com
+
+# Telegram notification
+
+# Values
+CHAT_ID="YOUR_CHAT_ID"
+BOT_TOKEN="YOUR_BOT_TOKEN"
+
+TELEGRAM_API_URL="https://api.telegram.org/bot"$BOT_TOKEN"/sendMessage"
+
+SERVICE_TEXT_MESSAGE="<b>--- TR CheckMK ---</b>\n<b>Notification Type:</b> ${NOTIFY_WHAT}\n\n<b>Service:</b> ${NOTIFY_SERVICEDESC} \n\n<b>Host:</b> ${NOTIFY_HOSTNAME} \n<b>Address:</b> ${NOTIFY_HOSTADDRESS} \n<b>State:</b> ${NOTIFY_SERVICESTATE} \n\n<b>DateTime:</b> ${NOTIFY_LONGDATETIME} \n\n<b>Status Detail:</b> ${NOTIFY_SERVICEOUTPUT}"
+
+HOST_TEXT_MESSAGE="<b>---- TR CheckMK ----</b>\n<b>Notification Type:</b> ${NOTIFY_WHAT}\n\n<b>Host:</b> ${NOTIFY_HOSTNAME} \n<b>Address:</b> ${NOTIFY_HOSTADDRESS} \n<b>State:</b> ${NOTIFY_HOSTSTATE} \n\n<b>DateTime:</b> ${NOTIFY_LONGDATETIME} \n\n<b>Status Detail:</b> ${NOTIFY_HOSTOUTPUT}"
+
+
+if [ "$NOTIFY_WHAT" = HOST ]
+then
+   curl -X POST $TELEGRAM_API_URL -d chat_id=$CHAT_ID -d parse_mode="HTML" -d text="$(echo -e $HOST_TEXT_MESSAGE)"
+else
+   curl -X POST $TELEGRAM_API_URL -d chat_id=$CHAT_ID -d parse_mode="HTML" -d text="$(echo -e $SERVICE_TEXT_MESSAGE)"
+fi
