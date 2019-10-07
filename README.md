@@ -1,0 +1,1 @@
+# checkmk-telegram-notification-plugin
